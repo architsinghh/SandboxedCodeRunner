@@ -1,0 +1,496 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+}
+
+.header h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f0f6fc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Language Selector */
+.language-select {
+  background: #21262d;
+  color: #e1e4e8;
+  border: 1px solid #30363d;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.language-select:hover {
+  border-color: #58a6ff;
+}
+
+/* Run Button */
+.run-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: #238636;
+  color: #fff;
+  border: 1px solid #2ea043;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.run-btn:hover:not(:disabled) {
+  background: #2ea043;
+}
+
+.run-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Main Layout */
+.main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.editor-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #30363d;
+}
+
+.panel-header {
+  padding: 8px 16px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #8b949e;
+  letter-spacing: 0.5px;
+}
+
+.editor-wrapper {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Stdin Section */
+.stdin-section {
+  border-top: 1px solid #30363d;
+}
+
+.stdin-input {
+  width: 100%;
+  background: #0d1117;
+  color: #e1e4e8;
+  border: none;
+  padding: 10px 16px;
+  font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.stdin-input::placeholder {
+  color: #484f58;
+}
+
+/* Error Highlighting in Editor */
+.error-line-highlight {
+  background: rgba(248, 81, 73, 0.15) !important;
+}
+
+.error-glyph {
+  background: #f85149;
+  border-radius: 50%;
+  margin-left: 5px;
+  width: 8px !important;
+  height: 8px !important;
+  margin-top: 6px;
+}
+
+/* Output Panel */
+.output-panel {
+  width: 40%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  background: #0d1117;
+}
+
+.output-content {
+  flex: 1;
+  padding: 16px;
+  overflow: auto;
+  font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.output-section {
+  margin-bottom: 16px;
+}
+
+.output-section:last-child {
+  margin-bottom: 0;
+}
+
+.output-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  color: #8b949e;
+}
+
+.output-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.output-text.stdout {
+  color: #e1e4e8;
+}
+
+.output-text.stderr {
+  color: #f85149;
+}
+
+.execution-time {
+  color: #8b949e;
+  font-size: 12px;
+  padding: 8px 16px;
+  border-top: 1px solid #30363d;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.exit-code {
+  margin-left: auto;
+}
+
+.exit-code.success {
+  color: #3fb950;
+}
+
+.exit-code.error {
+  color: #f85149;
+}
+
+/* Loading */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px;
+  color: #8b949e;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #30363d;
+  border-top-color: #58a6ff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Placeholder */
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #484f58;
+  font-size: 14px;
+}
+
+/* Error */
+.error-banner {
+  padding: 10px 16px;
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid rgba(248, 81, 73, 0.3);
+  border-radius: 6px;
+  color: #f85149;
+  font-size: 13px;
+  margin: 16px;
+}
+
+/* Mode Toggle */
+.mode-toggle {
+  padding: 6px 12px;
+  background: #21262d;
+  color: #8b949e;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.mode-toggle:hover {
+  border-color: #58a6ff;
+  color: #e1e4e8;
+}
+
+.mode-toggle.active {
+  background: rgba(56, 139, 253, 0.15);
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+/* Test Cases Section */
+.test-cases-section {
+  border-bottom: 1px solid #30363d;
+}
+
+.test-cases-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.add-test-btn {
+  background: none;
+  border: 1px solid #30363d;
+  color: #58a6ff;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.add-test-btn:hover {
+  border-color: #58a6ff;
+}
+
+.test-cases-list {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.test-case-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #21262d;
+}
+
+.test-case-item:last-child {
+  border-bottom: none;
+}
+
+.test-case-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding-top: 18px;
+  min-width: 28px;
+  font-size: 12px;
+  color: #8b949e;
+  font-weight: 600;
+}
+
+.remove-test-btn {
+  background: none;
+  border: none;
+  color: #484f58;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.remove-test-btn:hover {
+  color: #f85149;
+}
+
+.test-case-fields {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+}
+
+.test-case-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.test-case-field label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b949e;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.test-case-field textarea {
+  background: #161b22;
+  color: #e1e4e8;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 12px;
+  resize: vertical;
+  outline: none;
+  line-height: 1.4;
+}
+
+.test-case-field textarea:focus {
+  border-color: #58a6ff;
+}
+
+/* Judge Results */
+.judge-summary {
+  padding: 10px 16px;
+  border-bottom: 1px solid #30363d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.all-passed {
+  color: #3fb950;
+}
+
+.some-failed {
+  color: #f85149;
+}
+
+.judge-results {
+  flex: 1;
+  overflow: auto;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.results-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b949e;
+  border-bottom: 1px solid #30363d;
+  background: #161b22;
+  position: sticky;
+  top: 0;
+}
+
+.results-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #21262d;
+  vertical-align: top;
+}
+
+.results-table tr.passed td {
+  background: rgba(63, 185, 80, 0.04);
+}
+
+.results-table tr.failed td {
+  background: rgba(248, 81, 73, 0.04);
+}
+
+.status-cell {
+  white-space: nowrap;
+}
+
+.status-pass {
+  color: #3fb950;
+  font-weight: 600;
+}
+
+.status-fail {
+  color: #f85149;
+  font-weight: 600;
+}
+
+.cell-output {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: #e1e4e8;
+}
+
+.cell-stderr {
+  margin: 4px 0 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: #f85149;
+}
+
+.time-cell {
+  white-space: nowrap;
+  color: #8b949e;
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .editor-panel {
+    border-right: none;
+    border-bottom: 1px solid #30363d;
+    min-height: 300px;
+  }
+
+  .output-panel {
+    width: 100%;
+    min-height: 200px;
+  }
+}
