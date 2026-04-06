@@ -2,11 +2,13 @@
 
 A web-based code execution sandbox with a React frontend and FastAPI backend. Write and run Python, C++, Java, and JavaScript code in isolated Docker containers with judge mode for automated test case evaluation.
 
+**Live Demo:** [sandboxed-code-runner.vercel.app](https://sandboxed-code-runner.vercel.app)
+
 ## Architecture
 
 ```
-frontend/          React + Vite + Monaco Editor
-backend/           FastAPI + Docker SDK
+frontend/          React + Vite + Monaco Editor (deployed on Vercel)
+backend/           FastAPI + Docker SDK (deployed on AWS EC2)
   app/
     main.py        FastAPI app entry point
     routes.py      API endpoints
@@ -109,37 +111,56 @@ npm install
 npm run dev
 ```
 
-The app runs at `http://localhost:5173`. By default it connects to `http://localhost:8000`.
-
-To point at a different backend, create `.env`:
+The app runs at `http://localhost:5173`. Create a `.env` file to point at the backend:
 ```
-VITE_API_URL=https://your-backend-url.com
+VITE_API_URL=http://localhost:8000
 ```
 
 ## Deployment
 
-### Backend (Render)
+### Backend (AWS EC2)
 
-1. Create a new **Web Service** on [Render](https://render.com)
-2. Connect your repo and set the root directory to `backend`
-3. Render will detect the `Dockerfile` and build automatically
-4. **Important:** The backend needs Docker-in-Docker access. Use Render's Docker runtime or a VM-based hosting provider that supports running Docker containers
+1. Launch a free-tier EC2 instance (t3.micro, Ubuntu 24.04)
+2. Open ports 22 (SSH) and 8000 (API) in the security group
+3. SSH in and install Docker:
+   ```bash
+   curl -fsSL https://get.docker.com | sh
+   sudo usermod -aG docker $USER
+   ```
+4. Clone the repo, pull runtime images, build and run:
+   ```bash
+   git clone https://github.com/architsinghh/SandboxedCodeRunner.git
+   cd SandboxedCodeRunner/backend
+
+   docker pull python:3.12-slim
+   docker pull node:20-slim
+   docker pull gcc:13
+   docker pull eclipse-temurin:21-jdk
+
+   docker build -t sandbox-api .
+   docker run -d \
+     --name sandbox-api \
+     -p 8000:8000 \
+     --restart unless-stopped \
+     -v /var/run/docker.sock:/var/run/docker.sock \
+     -e CORS_ORIGINS="*" \
+     sandbox-api
+   ```
 
 ### Frontend (Vercel)
 
-1. Import the repo on [Vercel](https://vercel.com)
-2. Set the root directory to `frontend`
-3. Add environment variable: `VITE_API_URL=https://your-backend-url.com`
-4. Deploy
+1. Import the repo on [Vercel](https://vercel.com), set root directory to `frontend`
+2. API requests are proxied to the backend via `vercel.json` rewrites — no environment variables needed
+3. Deploy
 
 ## Supported Languages
 
-| Language   | Runtime              | File        |
-|------------|----------------------|-------------|
-| Python     | Python 3.12          | `main.py`   |
-| C++        | GCC 13               | `main.cpp`  |
+| Language   | Runtime                | File        |
+|------------|------------------------|-------------|
+| Python     | Python 3.12            | `main.py`   |
+| C++        | GCC 13                 | `main.cpp`  |
 | Java       | Eclipse Temurin JDK 21 | `Main.java` |
-| JavaScript | Node.js 20           | `main.js`   |
+| JavaScript | Node.js 20             | `main.js`   |
 
 ## Security
 
