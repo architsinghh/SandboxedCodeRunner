@@ -1,4 +1,4 @@
-# Code Execution Sandbox
+# Sandboxed Code Runner
 
 A web-based code execution sandbox with a React frontend and FastAPI backend. Write and run Python, C++, Java, and JavaScript code in isolated Docker containers with judge mode for automated test case evaluation.
 
