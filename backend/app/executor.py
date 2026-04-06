@@ -47,11 +47,15 @@ def _run_container(code: str, language: str, stdin_input: str | None = None) -> 
     container = None
 
     try:
-        # If stdin is provided, wrap the command to pipe input from a file
+        # Build the command, adding stdin redirection if needed
         cmd = config["cmd"]
         if stdin_input is not None:
-            original_cmd = " ".join(cmd)
-            cmd = ["sh", "-c", f"{original_cmd} < /sandbox/stdin.txt"]
+            # If command is already a shell command, extract the inner command
+            if cmd[0] == "sh" and cmd[1] == "-c":
+                inner_cmd = cmd[2]
+            else:
+                inner_cmd = " ".join(cmd)
+            cmd = ["sh", "-c", f"{inner_cmd} < /sandbox/stdin.txt"]
 
         container = client.containers.create(
             image=config["image"],
